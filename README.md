@@ -1,8 +1,8 @@
 # prePprojeto
 Apresentação de Pré-projeto de Site
 
-#Exercícios anteriores de sala de aula
+# Exercícios anteriores de sala de aula
 
-#Pré-projeto de site de Mercadorias
+# Pré-projeto de site de Mercadorias
 
 
