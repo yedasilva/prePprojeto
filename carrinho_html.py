@@ -5,7 +5,8 @@ html = '''
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Lista dos Produtos</h1>
+        <h1>Carrinho de compras</h1>
+        <br>
         <p>
             Veja abaixo os últimos produtos...
         </p>
@@ -13,6 +14,8 @@ html = '''
         <table>
             <_LISTAR_PRODUTOS_>
         </table>
+        <br><br>
+        <input type="submit" value="Comprar">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -23,8 +26,10 @@ html = '''
 html_template = '''
     <tr>
         <td>
+        <br>
         </td>
         <td>
+            <input type="checkbox" id="check">
             <_NOME_PRODUTO_>
         </td>
     </tr>
@@ -34,26 +39,29 @@ html_template = '''
         </td>
         <td>
             <_DESCRICAO_>
-            <br>
-            Valor: R$ <_VALOR_>
             <br><br>
-            <input type="submit" value="Ir para o carrinho">
-        </td>
-        
+            <labe>Quantidade: </label>
+            <input min="1" value="1"> 
+            Valor: R$ <_VALOR_>
+            <br><br>        
+            <input type="submit" value="Escolher">
+        </td>        
     </tr>
+    
 '''
 
-def gerar_html_produtos(lista):
+def gerar_html_carrinho(lista):
     lista_html = ''
     for prod in lista:
-        html_prod = f'{html_template}'
-        html_prod = html_prod.replace('<_NOME_PRODUTO_>', prod['nome'])
-        html_prod = html_prod.replace('__IMAGEM__', prod['imagem'])
+        html_car = f'{html_template}'
+        html_car = html_car.replace('<_NOME_PRODUTO_>', prod['nome'])
+        html_car = html_car.replace('__IMAGEM__', prod['imagem'])
         valor = str(prod['valor'])
-        html_prod = html_prod.replace('<_VALOR_>', valor)
-        html_prod = html_prod.replace('<_DESCRICAO_>', prod['descricao'])
-        
-        lista_html = lista_html + html_prod
+        html_car = html_car.replace('<_VALOR_>', valor)
+        html_car = html_car.replace('<_DESCRICAO_>', prod['descricao'])
+        quantidade = str(prod['quantidade'])
+        html_car = html_car.replace('<_QUANT_>', quantidade)
+        lista_html = lista_html + html_car  
 
     ret = html.replace('<_LISTAR_PRODUTOS_>', lista_html)
     return ret

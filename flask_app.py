@@ -1,4 +1,5 @@
 import banco
+import carrinho_html
 import produtos_html
 from flask import Flask
 
@@ -10,6 +11,12 @@ def principal():
     produtos = banco.consulta_produtos()
     pag = produtos_html.gerar_html_produtos(produtos)
     return pag
+
+@app.route('/carrinho')
+def comprar():
+   carrinho = banco.consulta_produtos()
+   comp = carrinho_html.gerar_html_carrinho(carrinho)
+   return comp
 
 
 #############################################
