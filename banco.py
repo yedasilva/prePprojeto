@@ -2,7 +2,7 @@ def consulta_produtos():
     lista = []
 
     produto = {
-        'nome': 'maçã',
+        'nome': 'maca',
         'imagem': 'maca.jpg',
         'valor': 1.25,
         'descricao': 'maçã vinda da república argentina',
