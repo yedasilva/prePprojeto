@@ -43,12 +43,20 @@ html_template = '''
             <labe>Quantidade: </label>
             <input min="1" value="1"> 
             Valor: R$ <_VALOR_>
-            <br><br>        
+            <br><br>    
+            <p>Total: R$ {{ total }}</p>    
             <input type="submit" value="Escolher">
         </td>        
     </tr>
     
 '''
+def calcular(lista):
+    lista_html = ''
+    for prod in lista:
+        preco_unitario = float(prod['preco'])
+        quantidade = int(prod['quantidade'])
+        total = preco_unitario * quantidade
+    return render_template('resultado.html', preco=preco_unitario, quantidade=quantidade, total=total)
 
 def gerar_html_carrinho(lista):
     lista_html = ''
