@@ -178,8 +178,10 @@ def fazer_login():
         print('ok, login.. fazer o resto..')
         return redirect('/') 
     else:
-        aut_cliente()
+        #aut_cliente()
+        session['msgErro'] = 'Usuário ou senha inválido.'
         print('erro.. tente de novo')
+        return redirect('/')
 
 
 @app.route('/cliente', methods=('POST', 'GET'))
