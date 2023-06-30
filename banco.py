@@ -1,6 +1,10 @@
+
+
 def consulta_produtos():
     lista = []
 
+
+    
     produto = {
         'nome': 'maçã',
         'imagem': 'maca.jpg',

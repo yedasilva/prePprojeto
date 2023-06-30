@@ -50,13 +50,13 @@ html_template = '''
     </tr>
     
 '''
-def calcular(lista):
-    lista_html = ''
-    for prod in lista:
-        preco_unitario = float(prod['preco'])
-        quantidade = int(prod['quantidade'])
-        total = preco_unitario * quantidade
-    return render_template('resultado.html', preco=preco_unitario, quantidade=quantidade, total=total)
+# def calcular(lista):
+#     lista_html = ''
+#     for prod in lista:
+#         preco_unitario = float(prod['preco'])
+#         quantidade = int(prod['quantidade'])
+#         total = preco_unitario * quantidade
+#     return render_template('resultado.html', preco=preco_unitario, quantidade=quantidade, total=total)
 
 def gerar_html_carrinho(lista):
     lista_html = ''

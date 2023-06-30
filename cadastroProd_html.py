@@ -1,4 +1,5 @@
-from flask import Flask,redirect, url_for, request, render_template, session,flash
+import json
+from flask import Flask, request
 
 html = '''
 <html>
@@ -11,11 +12,13 @@ html = '''
         <_USUARIO_LOGADO_>
         </p>
         <h1>Catálogo dos Produtos</h1>
-        <p>
-            Veja abaixo os últimos produtos...
-        </p>
-        <br>
-        <form action="/compra" method="POST">
+
+        <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="imagem" accept="image/*" required>
+            <br>
+            <button type="submit">Enviar</button>
+        </form>
+        <form action="/compra" method="POST">   
         <table>
             
                 <_LISTAR_PRODUTOS_>
@@ -29,6 +32,7 @@ html = '''
                 </tr>
             
         </table>
+
         </form>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
@@ -74,29 +78,33 @@ html_login = '''
 
         ''' 
 
-def gerar_html_produtos(lista):
-    lista_html = ''
-    for prod in lista:
-        html_prod = f'{html_template}'
-        html_prod = html_prod.replace('<_NOME_PRODUTO_>', prod['nome'])
-        html_prod = html_prod.replace('__IMAGEM__', prod['imagem'])
-        valor = str(prod['valor'])
-        html_prod = html_prod.replace('<_VALOR_>', valor)
-        html_prod = html_prod.replace('<_DESCRICAO_>', prod['descricao'])
+
+def cadastrar_produto():
+    lista =[] #lista vazia
+
+    # Solicita as informações do produto ao usuário
+    nome = input("Digite o nome do produto: ")
+    preco = float(input("Digite o preço do produto: "))
+    imagem = request.files['imagem']
+    imagem.save('uploads/' + imagem.filename)    
+    descricao = input("Digite uma descrição do produto: ")
+    quantidade = int(input("Digite a quantidade do produto: "))
+    #loop para adicionar itens à lista usando append
+    for i in range (3):
         
-        lista_html = lista_html + html_prod
 
-    ret = ''
-    if session.get('usuarioLogado') != None:
-        ret = html.replace('<_USUARIO_LOGADO_>','Olá, '+session['usuarioLogado'] ['nome']+'(<a href="/logout">sair</a>)')
-    else:
-        ret = html.replace('<_USUARIO_LOGADO_>',html_login)
+        item = {
+            'item': str(i+1),
+            'nome': nome,
+            'imagem': imagem,
+            'valor': preco,
+            'descricao': descricao,
+            'quantidade': quantidade,
+        }
+        lista.append(item)
+    print (lista)
 
-    ret = ret.replace('<_LISTAR_PRODUTOS_>', lista_html)
+    return 'Upload realizado com sucesso!'
 
-    if session.get('msgErro') != None:
-        ret+='<script>alert("'+ session['msgErro'] +'")</script>'
-        session['msgErro'] = None
-        print('exibir erro 2')
 
-    return ret
+cadastrar_produto()

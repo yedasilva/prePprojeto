@@ -1,6 +1,7 @@
 import banco
 import carrinho_html
 import produtos_html
+import cadastroProd_html
 from flask import Flask,redirect, url_for, request, render_template, session,flash
 from flask_session import Session
 
@@ -215,6 +216,12 @@ def funcao_3():
 
 
     return html_tabela
+
+@app.route('/cadastroProduto')
+def funcCadProd():
+    CadProdutos = cadastroProd_html.cadastrar_produto()
+    return CadProdutos
+
 
 #############################################
 #
