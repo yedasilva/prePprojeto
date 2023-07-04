@@ -1,3 +1,6 @@
+import banco
+from flask import request
+
 
 html = '''
 <html>
@@ -15,7 +18,7 @@ html = '''
             <_LISTAR_PRODUTOS_>
         </table>
         <br><br>
-        <input type="submit" value="Comprar">
+        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -45,18 +48,12 @@ html_template = '''
             Valor: R$ <_VALOR_>
             <br><br>    
             <p>Total: R$ {{ total }}</p>    
-            <input type="submit" value="Escolher">
+            
         </td>        
     </tr>
     
 '''
-# def calcular(lista):
-#     lista_html = ''
-#     for prod in lista:
-#         valor_unitario = float(prod['valor'])
-#         quantidade = int(prod['quantidade'])
-#         total = valor_unitario * quantidade
-#     return render_template('resultado.html', valor=valor_unitario, quantidade=quantidade, total=total)
+
 
 def gerar_html_carrinho(lista):
     lista_html = ''
@@ -73,3 +70,18 @@ def gerar_html_carrinho(lista):
 
     ret = html.replace('<_LISTAR_PRODUTOS_>', lista_html)
     return ret
+
+def carrinho_de_compras():
+    if request.method == 'POST':
+        # Obter os itens selecionados e suas quantidades
+        itens_selecionados = request.form.getlist('nome')
+        quantidades = request.form.getlist('quantidade')
+
+        # Calcular o preço total dos itens selecionados
+        preco_total = 0.0
+        for item_id, quantidade in zip(itens_selecionados, quantidades):
+            item = itens[int(item_id)]
+            preco_total += item['valor'] * int(quantidade)
+
+        # Exibir o valor total das compras
+        return f'Valor total: R${preco_total:.2f}'

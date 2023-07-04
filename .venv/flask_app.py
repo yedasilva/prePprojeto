@@ -14,6 +14,7 @@ Session(app)
 @app.route("/logout")
 def logout():
     session["usuarioLogado"] = None
+    session["usuarioAdmin"] = None
     return redirect("/")
 
 @app.route('/')
@@ -170,6 +171,8 @@ def check_login(login, passwd):
     for cadastro in VARIAVEIS:
         if login == cadastro['login'] and passwd == cadastro['senha']:
             session['usuarioLogado'] = cadastro
+            if login=='admin':
+                session['usuarioAdmin'] = cadastro 
             return True
 
     return False
@@ -179,9 +182,8 @@ def check_login(login, passwd):
 def fazer_login():
     login = request.form['login']
     senha = request.form['senha']
-    if login=='admin' and senha=='admin123':
-        return redirect('/cadastroProduto') 
-    elif check_login(login, senha):
+    
+    if check_login(login, senha):
         print('ok, login.. fazer o resto..')
         return redirect('/') 
     

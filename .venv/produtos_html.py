@@ -11,6 +11,9 @@ html = '''
             <p>
             <_USUARIO_LOGADO_>
             </p>
+            <p>
+            <_USUARIO_ADMIN_>
+            </p>
             <h1>Catálogo dos Produtos</h1>
             <p>
                 Veja abaixo os últimos produtos...
@@ -90,8 +93,15 @@ def gerar_html_produtos(lista):
     ret = ''
     if session.get('usuarioLogado') != None:
         ret = html.replace('<_USUARIO_LOGADO_>','Olá, '+session['usuarioLogado'] ['nome']+'(<a href="/logout">sair</a>)')
+        
     else:
         ret = html.replace('<_USUARIO_LOGADO_>',html_login)
+
+    if session.get('usuarioAdmin') != None:
+        ret = ret.replace('<_USUARIO_ADMIN_>','(<a href="/cadastroProduto">Adicionar Produto</a>)')
+        
+    else:
+        ret = ret.replace('<_USUARIO_ADMIN_>','')
 
     ret = ret.replace('<_LISTAR_PRODUTOS_>', lista_html)
 
