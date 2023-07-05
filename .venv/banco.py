@@ -41,4 +41,6 @@ def consulta_carrinho():
     return compra
 
 
+
+
 print(compra)

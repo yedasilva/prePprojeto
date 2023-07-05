@@ -7,3 +7,4 @@ function adicionaCarrinho(nomeProduto){
     window.location.href = "/carrinho/"+nomeProduto+"/"+ n1.value;
     
 }
+

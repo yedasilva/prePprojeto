@@ -114,12 +114,15 @@ def fazer_compra():
                 <h1>Pedido</h1>
                 <br>
                 <hr>
-                O seu pedido foi cadastrado com valor total de R$10.
+                O seu pedido foi cadastrado com valor total R$<_TOTAL_PEDIDO_>.
             </body>
-        </html>
+        </html>       
         
-        '''
-        return msg
+        '''       
+
+        total = request.form['valortotal']
+        ret = msg.replace('<_TOTAL_PEDIDO_>',total)
+        return ret
     else:
         session['msgErro'] = 'Você não está logado, por favor realize o login.'
         

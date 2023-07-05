@@ -21,6 +21,8 @@ html = '''
             <table>
                 
                     <_LISTAR_PRODUTOS_>
+                    <label>Valor total da Compra</label>
+                    <input type="text" name="valortotal" id="valortotal" value="<_VALOR_TOTAL_>" readonly="readonly" >
                     <tr>
                     <td>
                     <input type="submit" value="Comprar">
@@ -57,6 +59,7 @@ html_template = '''
             <labe>Valor Total: R$</label>
             <_VALOR_>
             <br><br>    
+              
         </td>
         
     </tr>
@@ -76,6 +79,7 @@ html_login = '''
 
 def gerar_html_carrinho(lista):
     lista_html = ''
+    soma = 0.0
     for prod in lista:
         html_prod = f'{html_template}'
         html_prod = html_prod.replace('<_NOME_PRODUTO_>', prod['nome'])
@@ -85,8 +89,10 @@ def gerar_html_carrinho(lista):
         html_prod = html_prod.replace('<_VALOR_>', valortotal)
         quantidade = str(prod['quantidade'])
         html_prod = html_prod.replace('<_QUANTIDADE_>', quantidade)
-        
+        soma += prod['valorTotal'] 
+      
         lista_html = lista_html + html_prod
+    
 
     ret = ''
     if session.get('usuarioLogado') != None:
@@ -97,7 +103,9 @@ def gerar_html_carrinho(lista):
 
     
 
+    
     ret = ret.replace('<_LISTAR_PRODUTOS_>', lista_html)
+    ret = ret.replace('<_VALOR_TOTAL_>', str(soma))
 
     if session.get('msgErro') != None:
         ret+='<script>alert("'+ session['msgErro'] +'")</script>'
@@ -105,3 +113,4 @@ def gerar_html_carrinho(lista):
         print('exibir erro 2')
 
     return ret
+
