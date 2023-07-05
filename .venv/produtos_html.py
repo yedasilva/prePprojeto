@@ -1,5 +1,5 @@
 from flask import  session, request
-import banco
+
 
 html = '''
     <html>
@@ -34,6 +34,7 @@ html = '''
                 
             </table>
             </form>
+            <script src="static/js/calc_carrinho.js?1" > </script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -57,10 +58,13 @@ html_template = '''
             <_DESCRICAO_>
             <br><br>
             <labe>Quantidade: </label>
-            <input id="quantidade" name="quantidade" min="1" value="1"/> 
+            <input id="quantidade-<_NOME_PROD_>" name="quantidade" min="1" value="1"/> 
             <labe>Valor: R$</label>
             <input id="valor" name="valor" value="<_VALOR_>" disabled/>
+            
+            <input type="button" value="Adicionar ao carrinho" onclick="adicionaCarrinho('<_NOME_PROD_>')">
             <br><br>    
+            
         </td>
         
     </tr>
@@ -83,6 +87,7 @@ def gerar_html_produtos(lista):
     for prod in lista:
         html_prod = f'{html_template}'
         html_prod = html_prod.replace('<_NOME_PRODUTO_>', prod['nome'])
+        html_prod = html_prod.replace('<_NOME_PROD_>', prod['nome'])
         html_prod = html_prod.replace('__IMAGEM__', prod['imagem'])
         valor = str(prod['valor'])
         html_prod = html_prod.replace('<_VALOR_>', valor)

@@ -23,9 +23,9 @@ def principal():
     pag = produtos_html.gerar_html_produtos(produtos)
     return pag
 
-@app.route('/carrinho')
+@app.route('/compra_carrinho')
 def comprar():
-   carrinho = banco.consulta_produtos()
+   carrinho = banco.consulta_carrinho()
    comp = carrinho_html.gerar_html_carrinho(carrinho)
    return comp
 
@@ -243,6 +243,14 @@ def consultar():
     # Lógica para exibir os produtos na página de consulta
 
     return "Página de consulta de produtos"
+
+@app.route('/carrinho/<nome_produto>/<quantidade>')
+def adiciona_carrinho(nome_produto=None, quantidade=None):
+    banco.adicionar_carrinho(nome_produto,quantidade)
+    return redirect('/compra_carrinho')
+  
+
+
 
 
 #############################################
